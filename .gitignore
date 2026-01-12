@@ -1,0 +1,16 @@
+.env
+data/
+models/
+logs/
+pids/
+*.db
+*.pid
+*.log
+training_log*.txt
+__pycache__/
+*.pyc
+.DS_Store
+feb3_validation.txt
+batch_replay_*.log
+bot_output*.log
+bot_ml*.log
