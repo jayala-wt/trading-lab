@@ -1,0 +1,12 @@
+Flask>=2.3
+pydantic>=2.0
+PyYAML>=6.0
+matplotlib>=3.8
+requests>=2.31
+pytest>=7.4
+
+# ML dependencies for crash prediction
+scikit-learn>=1.3.0
+pandas>=2.0.0
+numpy>=1.24.0
+joblib>=1.3.0
