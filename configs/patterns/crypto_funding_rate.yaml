@@ -1,0 +1,14 @@
+id: crypto_funding_rate
+name: Crypto Funding Rate Extreme
+implementation: primitives
+description: High funding rate often precedes corrections - contrarian signal.
+params:
+  funding_rate_threshold: 0.05
+  direction_threshold: 0.03
+logic:
+  signal: "abs(funding_rate()) > funding_rate_threshold"
+  score: "abs(funding_rate()) * 100"
+  direction: "-1 if funding_rate() > direction_threshold else 1"
+  tags:
+    funding: "funding_rate()"
+    oi_change: "open_interest_change(24)"

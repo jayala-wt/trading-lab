@@ -1,0 +1,189 @@
+bot:
+  id: stocks_1m_core
+  market: stocks
+  timeframe: 1m
+  enabled: true
+
+universe:
+  mode: list
+  # === ETFs (Index Funds) ===
+  # SPY - S&P 500, QQQ - Nasdaq 100, IWM - Russell 2000
+  # DIA - Dow Jones, XLF - Financials, XLE - Energy, XLV - Healthcare
+  # 
+  # === Mega Tech ===
+  # AAPL, MSFT, GOOGL, AMZN, NVDA, META, TSLA
+  #
+  # === Semiconductors ===
+  # AMD, INTC, MU, AVGO, QCOM, TSM
+  #
+  # === Finance ===
+  # JPM, GS, V, MA, BAC, WFC
+  #
+  # === Defense/Military ===
+  # LMT (Lockheed), RTX (Raytheon), NOC (Northrop), GD (General Dynamics), BA (Boeing)
+  #
+  # === Pharma/Healthcare ===
+  # PFE (Pfizer), JNJ (J&J), MRK (Merck), ABBV (AbbVie), LLY (Eli Lilly), UNH (UnitedHealth)
+  #
+  # === Other Popular ===
+  # NFLX, DIS, COIN, PLTR, UBER, ABNB, SQ, PYPL
+  symbols: 
+    # ETFs (Index Funds)
+    - SPY      # S&P 500 ETF
+    - QQQ      # Nasdaq 100 ETF
+    - IWM      # Russell 2000 Small Cap
+    - DIA      # Dow Jones Industrial
+    - XLF      # Financial Sector ETF
+    - XLE      # Energy Sector ETF
+    - XLV      # Healthcare Sector ETF
+    - ARKK     # ARK Innovation ETF
+    - VTI      # Total Stock Market ETF
+    
+    # Mega Tech
+    - AAPL     # Apple
+    - MSFT     # Microsoft
+    - GOOGL    # Google
+    - AMZN     # Amazon
+    - NVDA     # Nvidia
+    - META     # Meta/Facebook
+    - TSLA     # Tesla
+    - ORCL     # Oracle
+    - CRM      # Salesforce
+    - ADBE     # Adobe
+    
+    # Semiconductors
+    - AMD      # AMD
+    - INTC     # Intel
+    - MU       # Micron
+    - AVGO     # Broadcom
+    - QCOM     # Qualcomm
+    - TSM      # Taiwan Semi
+    - MRVL     # Marvell
+    - ARM      # ARM Holdings
+    
+    # Finance
+    - JPM      # JP Morgan
+    - GS       # Goldman Sachs
+    - V        # Visa
+    - MA       # Mastercard
+    - BAC      # Bank of America
+    - WFC      # Wells Fargo
+    - SCHW     # Charles Schwab
+    
+    # Defense/Military
+    - LMT      # Lockheed Martin
+    - RTX      # Raytheon
+    - NOC      # Northrop Grumman
+    - GD       # General Dynamics
+    - BA       # Boeing
+    - LHX      # L3Harris
+    
+    # Pharma/Healthcare
+    - PFE      # Pfizer
+    - JNJ      # Johnson & Johnson
+    - MRK      # Merck
+    - ABBV     # AbbVie
+    - LLY      # Eli Lilly
+    - UNH      # UnitedHealth
+    - BMY      # Bristol-Myers
+    - MRNA     # Moderna
+    
+    # Consumer/Entertainment
+    - NFLX     # Netflix
+    - DIS      # Disney
+    - NKE      # Nike
+    - SBUX     # Starbucks
+    - MCD      # McDonald's
+    - WMT      # Walmart
+    - TGT      # Target
+    - COST     # Costco
+    
+    # Fintech/Crypto
+    - COIN     # Coinbase
+    - SQ       # Block (Square)
+    - PYPL     # PayPal
+    - HOOD     # Robinhood
+    
+    # Tech Growth/Niche
+    - PLTR     # Palantir
+    - UBER     # Uber
+    - ABNB     # Airbnb
+    - SNOW     # Snowflake
+    - NET      # Cloudflare
+    - DDOG     # Datadog
+    - CNXC     # Concentrix
+    
+    # Energy
+    - XOM      # Exxon Mobil
+    - CVX      # Chevron
+    - OXY      # Occidental
+
+data:
+  provider: alpaca
+  bars:
+    lookback_bars: 600
+  schedule:
+    interval_seconds: 60
+    market_hours_only: true
+
+pipeline:
+  patterns:
+    - id: opening_range
+      config: configs/patterns/opening_range.yaml
+    - id: volatility_squeeze
+      config: configs/patterns/volatility_squeeze.yaml
+    - id: mean_reversion_extreme
+      config: configs/patterns/mean_reversion.yaml
+    # New patterns for more signals
+    - id: ema_crossover
+      config: configs/patterns/ema_crossover.yaml
+    - id: macd_crossover
+      config: configs/patterns/macd_crossover.yaml
+    - id: vwap_bounce
+      config: configs/patterns/vwap_bounce.yaml
+    - id: bollinger_squeeze
+      config: configs/patterns/bollinger_squeeze.yaml
+    - id: volume_breakout
+      config: configs/patterns/volume_breakout.yaml
+    # - id: gap_fill  # DISABLED - Function not allowed: gap_fill_pct
+    #   config: configs/patterns/gap_fill.yaml
+  strategies:
+    - id: or_breakout
+      config: configs/strategies/or_breakout.yaml
+    - id: squeeze_breakout
+      config: configs/strategies/squeeze_breakout.yaml
+    - id: squeeze_breakdown
+      config: configs/strategies/squeeze_breakdown.yaml
+    - id: dim_momentum_reversal
+      config: configs/strategies/dim_momentum_reversal.yaml
+    - id: dim_trend_continuation
+      config: configs/strategies/dim_trend_continuation.yaml
+    # New strategies for more signals
+    - id: macd_momentum
+      config: configs/strategies/macd_momentum.yaml
+    - id: bb_breakout
+      config: configs/strategies/bb_breakout.yaml
+    - id: ema_momentum
+      config: configs/strategies/ema_momentum.yaml
+    - id: vwap_bounce_long
+      config: configs/strategies/vwap_bounce_long.yaml
+    - id: volume_breakout_long
+      config: configs/strategies/volume_breakout_long.yaml
+    # - id: gap_trade  # DISABLED - depends on gap_fill pattern
+    #   config: configs/strategies/gap_trade.yaml
+
+execution:
+  mode: paper
+  gated: false          # Ungated for paper trading
+  risk_defaults: configs/risk/stocks.yaml
+
+visuals:
+  generate_on: [signal_fired, trade_open, trade_close]
+  chart_style: minimal_dark
+  overlay_template: configs/ui/dashboard.yaml
+
+content:
+  enabled: true
+  caption_templates:
+    - "pattern repeat under pressure"
+    - "technology narratives tend to accelerate under attention"

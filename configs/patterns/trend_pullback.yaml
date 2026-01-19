@@ -1,0 +1,16 @@
+id: trend_pullback
+name: Trend Pullback Entry
+implementation: primitives
+description: In uptrend, buy the pullback to moving average.
+params:
+  trend_ema: 50
+  pullback_ema: 20
+  trend_strength_pct: 2.0
+  pullback_touch_pct: 0.3
+logic:
+  signal: "close > ema(trend_ema) and ema(trend_ema) > ema_prev(trend_ema, 10) and abs(close - ema(pullback_ema)) / ema(pullback_ema) < pullback_touch_pct / 100"
+  score: "(close - ema(trend_ema)) / ema(trend_ema) * 100"
+  tags:
+    trend_ema: "ema(trend_ema)"
+    pullback_ema: "ema(pullback_ema)"
+    above_trend: "(close - ema(trend_ema)) / ema(trend_ema) * 100"

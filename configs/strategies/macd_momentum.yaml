@@ -1,0 +1,27 @@
+# MACD Crossover Strategy - Trade momentum shifts
+# Goes LONG when MACD crosses above signal line
+
+id: macd_momentum
+name: MACD Momentum
+description: |
+  Enter LONG on MACD bullish crossover.
+  Uses histogram confirmation for stronger signals.
+  
+required_patterns:
+  - macd_crossover
+
+entry:
+  action: open
+  side: buy
+  size_mode: fixed_usd
+  size_value: 18
+  order_type: market
+
+filters:
+  min_confidence: 0.4
+  market_hours_only: false
+
+risk:
+  stop_loss_pct: 1.2
+  take_profit_pct: 2.0
+  time_stop_bars: 30  # 2.5 hours at 5min bars

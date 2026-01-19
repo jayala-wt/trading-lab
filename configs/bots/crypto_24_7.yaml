@@ -1,0 +1,71 @@
+bot:
+  id: crypto_24_7
+  market: crypto
+  timeframe: 5m
+  enabled: true
+
+universe:
+  mode: list
+  # Major cryptos with good liquidity on Alpaca
+  symbols: [BTC/USD, ETH/USD, SOL/USD, DOGE/USD, AVAX/USD, LINK/USD]
+
+data:
+  provider: alpaca
+  bars:
+    lookback_bars: 200
+  schedule:
+    interval_seconds: 300
+    market_hours_only: false
+
+pipeline:
+  patterns:
+    - id: ema_crossover
+      config: configs/patterns/ema_crossover.yaml
+    - id: rsi_oversold
+      config: configs/patterns/rsi_oversold.yaml
+    - id: vwap_bounce
+      config: configs/patterns/vwap_bounce.yaml
+    - id: support_bounce
+      config: configs/patterns/support_bounce.yaml
+    - id: composite_momentum
+      config: configs/patterns/composite_momentum.yaml
+    - id: volatility_squeeze
+      config: configs/patterns/volatility_squeeze.yaml
+    # New patterns for more signals
+    - id: macd_crossover
+      config: configs/patterns/macd_crossover.yaml
+    - id: bollinger_squeeze
+      config: configs/patterns/bollinger_squeeze.yaml
+    # - id: double_bottom  # DISABLED - Function not allowed: is_double_bottom
+    #   config: configs/patterns/double_bottom.yaml
+    - id: volume_breakout
+      config: configs/patterns/volume_breakout.yaml
+    - id: hammer_candle
+      config: configs/patterns/hammer_candle.yaml
+    - id: momentum_divergence
+      config: configs/patterns/momentum_divergence.yaml
+  strategies:
+    # FOCUSED MODE (2026-02-25): Only dim_momentum_reversal_buy
+    # Analysis showed this is the only pattern with strong positive 60m outcome (+0.327).
+    # All other strategies disabled until buy_entry_classifier + extended paper run validate.
+    # Re-enable others after 2 weeks of consistent positive paper PnL.
+    - id: dim_momentum_reversal_buy_only
+      config: configs/strategies/dim_momentum_reversal_buy_only.yaml
+    # Disabled strategies (preserved for re-enable):
+    # - squeeze_breakout, squeeze_breakdown, rsi_reversal, mr_fade_both
+    # - composite_momentum_long, dimension_directional, dim_trend_continuation
+    # - macd_momentum, bb_breakout, ema_momentum, volume_breakout_long
+    # - hammer_reversal, vwap_bounce_long, dim_momentum_reversal (both sides)
+
+execution:
+  mode: paper
+  gated: false
+  risk_defaults: configs/risk/crypto.yaml
+
+visuals:
+  generate_on: [signal_fired]
+  chart_style: minimal_dark
+
+content:
+  enabled: false
+  caption_templates: []

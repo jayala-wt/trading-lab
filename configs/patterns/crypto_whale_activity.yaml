@@ -1,0 +1,14 @@
+id: crypto_whale_activity
+name: Whale Activity Detector
+implementation: primitives
+description: Large wallet movements often precede significant price action.
+params:
+  volume_spike_multiplier: 3.0
+  price_stability_threshold: 0.5
+logic:
+  signal: "volume_ratio(20) > volume_spike_multiplier and abs(pct_move(1)) < price_stability_threshold"
+  score: "volume_ratio(20)"
+  tags:
+    vol_ratio: "volume_ratio(20)"
+    price_move: "pct_move(1)"
+    bid_ask_imbalance: "orderbook_imbalance()"

@@ -1,0 +1,27 @@
+# Hammer Reversal Strategy
+# Trade bullish hammer candlestick reversals
+
+id: hammer_reversal
+name: Hammer Reversal Long
+description: |
+  Enter LONG on hammer candlestick at support.
+  Strong reversal signal showing buying pressure.
+  
+required_patterns:
+  - hammer_candle
+
+entry:
+  action: open
+  side: buy
+  size_mode: fixed_usd
+  size_value: 15
+  order_type: market
+
+filters:
+  min_confidence: 0.5
+  market_hours_only: false
+
+risk:
+  stop_loss_pct: 0.8  # Tight stop below hammer low
+  take_profit_pct: 1.5
+  time_stop_bars: 16

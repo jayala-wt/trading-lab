@@ -1,0 +1,14 @@
+id: momentum_divergence
+name: RSI Momentum Divergence
+implementation: primitives
+description: Price makes new low but RSI makes higher low - bullish divergence.
+params:
+  rsi_period: 14
+  lookback: 20
+logic:
+  signal: "close < min_close(lookback) and rsi(rsi_period) > min_rsi(rsi_period, lookback)"
+  score: "rsi(rsi_period) - min_rsi(rsi_period, lookback)"
+  tags:
+    current_rsi: "rsi(rsi_period)"
+    rsi_at_prior_low: "min_rsi(rsi_period, lookback)"
+    price_new_low: "close < min_close(lookback)"

@@ -1,0 +1,42 @@
+bot:
+  id: momentum_trader
+  market: stocks
+  timeframe: 5m
+  enabled: true
+
+universe:
+  mode: list
+  symbols: [SPY, QQQ, NVDA, AMD, TSLA, META]
+
+data:
+  provider: alpaca
+  bars:
+    lookback_bars: 200
+  schedule:
+    interval_seconds: 300
+    market_hours_only: true
+
+pipeline:
+  patterns:
+    - id: volume_breakout
+      config: configs/patterns/volume_breakout.yaml
+    - id: ema_crossover
+      config: configs/patterns/ema_crossover.yaml
+    - id: macd_crossover
+      config: configs/patterns/macd_crossover.yaml
+  strategies:
+    - id: scalp_momentum
+      config: configs/strategies/scalp_momentum.yaml
+
+execution:
+  mode: paper
+  gated: true
+  risk_defaults: null
+
+visuals:
+  generate_on: [signal_fired, trade_open]
+  chart_style: minimal_dark
+
+content:
+  enabled: false
+  caption_templates: []

@@ -1,0 +1,30 @@
+# Dimension Momentum Reversal — BUY ONLY
+# Focused version: only fires on dim_momentum_reversal_buy (our highest-signal pattern).
+# 60m outcome: +0.327 — best performing pattern on crypto_24_7 (analysis 2026-02-25)
+#
+# Pair with buy_entry_classifier ML gate for additional timing confidence.
+
+id: dim_momentum_reversal_buy_only
+name: Dimension Momentum Reversal (Buy Only)
+description: |
+  Long-only reversal strategy using only dim_momentum_reversal_buy pattern.
+  Best suited for crypto_24_7 where this pattern shows +0.33% avg at 60m.
+
+required_patterns:
+  - dim_momentum_reversal_buy
+
+entry:
+  action: open
+  side: signal
+  size_mode: fixed_usd
+  size_value: 18
+  order_type: market
+
+filters:
+  min_confidence: 0.5
+  market_hours_only: false
+
+risk:
+  stop_loss_pct: 1.2
+  take_profit_pct: 2.5
+  time_stop_bars: 30

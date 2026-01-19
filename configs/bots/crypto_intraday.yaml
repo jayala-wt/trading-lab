@@ -1,0 +1,56 @@
+bot:
+  id: crypto_5m_core
+  market: crypto
+  timeframe: 5m
+  enabled: true
+
+universe:
+  mode: list
+  # Major cryptos - more symbols = more ML data
+  symbols: ["BTC/USD", "ETH/USD", "SOL/USD", "DOGE/USD", "AVAX/USD", "LINK/USD"]
+
+data:
+  provider: alpaca
+  bars:
+    lookback_bars: 800
+  schedule:
+    interval_seconds: 300
+    market_hours_only: false
+
+pipeline:
+  patterns:
+    - id: volatility_squeeze
+      config: configs/patterns/volatility_squeeze.yaml
+    - id: mean_reversion_extreme
+      config: configs/patterns/mean_reversion.yaml
+    - id: bart_simpson
+      config: configs/patterns/bart_simpson.yaml
+  strategies:
+    - id: squeeze_breakout
+      config: configs/strategies/squeeze_breakout.yaml
+    - id: mr_fade
+      config: configs/strategies/mr_fade.yaml
+    - id: dim_momentum_reversal
+      config: configs/strategies/dim_momentum_reversal.yaml
+    - id: dim_trend_continuation
+      config: configs/strategies/dim_trend_continuation.yaml
+    - id: squeeze_breakdown
+      config: configs/strategies/squeeze_breakdown.yaml
+    - id: mr_fade_both
+      config: configs/strategies/mr_fade_both.yaml
+
+execution:
+  mode: paper
+  gated: false
+  risk_defaults: configs/risk/crypto.yaml
+
+visuals:
+  generate_on: [signal_fired]
+  chart_style: minimal_dark
+  overlay_template: configs/ui/dashboard.yaml
+
+content:
+  enabled: true
+  caption_templates:
+    - "attention creates its own volatility"
+    - "memes are patterns with bad documentation"

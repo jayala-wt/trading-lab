@@ -1,0 +1,31 @@
+id: bollinger_reversal
+name: Bollinger Reversal Strategy
+version: "1.0"
+description: Trade reversals at Bollinger Band extremes with RSI confirmation.
+
+patterns:
+  - bollinger_squeeze
+  - rsi_oversold
+  - momentum_divergence
+
+entry_logic:
+  operator: OR
+  conditions:
+    - pattern: bollinger_squeeze
+      direction: long
+    - combo:
+        operator: AND
+        patterns:
+          - rsi_oversold
+          - momentum_divergence
+
+risk:
+  position_pct: 4.0
+  stop_loss_pct: 1.5
+  take_profit_pct: 3.0
+  trailing_stop_pct: 1.0
+  max_hold_hours: 8
+
+filters:
+  min_volume_ratio: 1.2
+  bb_bandwidth_max: 0.1

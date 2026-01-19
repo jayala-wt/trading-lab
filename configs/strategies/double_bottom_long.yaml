@@ -1,0 +1,27 @@
+# Double Bottom Reversal Strategy
+# Classic chart pattern for bottom fishing
+
+id: double_bottom_long
+name: Double Bottom Long
+description: |
+  Enter LONG when double bottom pattern detected.
+  Strong reversal signal after downtrend.
+  
+required_patterns:
+  - double_bottom
+
+entry:
+  action: open
+  side: buy
+  size_mode: fixed_usd
+  size_value: 20
+  order_type: market
+
+filters:
+  min_confidence: 0.6
+  market_hours_only: false
+
+risk:
+  stop_loss_pct: 1.5
+  take_profit_pct: 3.0
+  time_stop_bars: 48  # 4 hours at 5min bars

@@ -1,0 +1,17 @@
+id: bollinger_squeeze
+name: Bollinger Band Squeeze
+implementation: primitives
+description: Price breaks out of tight Bollinger Bands after low volatility squeeze.
+params:
+  bb_period: 20
+  bb_std: 2.0
+  squeeze_threshold: 0.03  # bandwidth < 3%
+  breakout_threshold: 0.5  # above/below mid
+logic:
+  signal: "bb_bandwidth(bb_period, bb_std) < squeeze_threshold and (close > bb_upper(bb_period, bb_std) or close < bb_lower(bb_period, bb_std))"
+  score: "1 / bb_bandwidth(bb_period, bb_std)"
+  direction: "1 if close > bb_upper(bb_period, bb_std) else -1"
+  tags:
+    bandwidth: "bb_bandwidth(bb_period, bb_std)"
+    upper: "bb_upper(bb_period, bb_std)"
+    lower: "bb_lower(bb_period, bb_std)"

@@ -1,0 +1,14 @@
+id: ema_crossover
+name: EMA Crossover (9/21)
+implementation: primitives
+description: Fast EMA (9) crosses above slow EMA (21) - classic trend signal.
+params:
+  fast_ema: 9
+  slow_ema: 21
+logic:
+  signal: "ema(fast_ema) > ema(slow_ema) and pct_move(1) > 0"
+  score: "(ema(fast_ema) - ema(slow_ema)) / ema(slow_ema) * 100"
+  tags:
+    fast_ema: "ema(fast_ema)"
+    slow_ema: "ema(slow_ema)"
+    spread_pct: "(ema(fast_ema) - ema(slow_ema)) / ema(slow_ema) * 100"

@@ -1,0 +1,27 @@
+# EMA Crossover Momentum Strategy
+# Classic moving average crossover with trend confirmation
+
+id: ema_momentum
+name: EMA Crossover Momentum
+description: |
+  Enter LONG when fast EMA crosses above slow EMA.
+  Works well in trending markets.
+  
+required_patterns:
+  - ema_crossover
+
+entry:
+  action: open
+  side: buy
+  size_mode: fixed_usd
+  size_value: 15
+  order_type: market
+
+filters:
+  min_confidence: 0.3
+  market_hours_only: false
+
+risk:
+  stop_loss_pct: 1.5
+  take_profit_pct: 2.5
+  time_stop_bars: 36  # 3 hours at 5min bars

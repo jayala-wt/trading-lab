@@ -1,0 +1,44 @@
+id: swing_trend
+name: Swing Trend Strategy
+version: "1.0"
+description: Swing trade on trend pullbacks to moving averages.
+
+# Current strategy engine reads required_patterns + entry.
+# Legacy entry_logic confirmation rules are preserved below for reference.
+# This patch restores execution by using trend_pullback as the active trigger.
+required_patterns:
+  - trend_pullback
+
+entry:
+  action: open
+  side: buy
+  size_mode: fixed_usd
+  size_value: 25
+  order_type: market
+
+patterns:
+  - trend_pullback
+  - support_bounce
+  - macd_crossover
+
+entry_logic:
+  operator: AND
+  conditions:
+    - pattern: trend_pullback
+    - confirmation:
+        operator: OR
+        patterns:
+          - macd_crossover
+          - support_bounce
+
+risk:
+  position_pct: 5.0
+  stop_loss_pct: 2.0
+  take_profit_pct: 6.0
+  trailing_stop_pct: 1.5
+  max_hold_days: 5
+
+filters:
+  min_volume_ratio: 1.0
+  above_200_ema: true
+  min_atr_pct: 0.5

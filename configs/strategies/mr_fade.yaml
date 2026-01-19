@@ -1,0 +1,14 @@
+id: mr_fade
+name: Mean Reversion Fade
+required_patterns:
+  - mean_reversion_extreme
+description: Fade extremes after mean reversion signal.
+entry:
+  action: open
+  side: signal
+  size_mode: fixed_usd
+  size_value: 20
+  order_type: market
+risk:
+  stop_loss_pct: 0.9
+  take_profit_pct: 1.2

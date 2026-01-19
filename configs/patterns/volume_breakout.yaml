@@ -1,0 +1,15 @@
+id: volume_breakout
+name: Volume Breakout
+implementation: primitives
+description: Price breakout with volume spike above average - momentum confirmation.
+params:
+  volume_period: 20
+  volume_multiplier: 2.0
+  price_breakout_pct: 0.5
+logic:
+  signal: "volume_ratio(volume_period) > volume_multiplier and abs(pct_move(1)) > price_breakout_pct"
+  score: "volume_ratio(volume_period)"
+  direction: "1 if pct_move(1) > 0 else -1"
+  tags:
+    vol_ratio: "volume_ratio(volume_period)"
+    price_move: "pct_move(1)"

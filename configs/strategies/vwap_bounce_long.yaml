@@ -1,0 +1,27 @@
+# VWAP Bounce Strategy  
+# Trade bounces off VWAP (institutional anchor)
+
+id: vwap_bounce_long
+name: VWAP Bounce Long
+description: |
+  Enter LONG when price bounces off VWAP from below.
+  VWAP is key institutional reference level.
+  
+required_patterns:
+  - vwap_bounce
+
+entry:
+  action: open
+  side: buy
+  size_mode: fixed_usd
+  size_value: 16
+  order_type: market
+
+filters:
+  min_confidence: 0.4
+  market_hours_only: false
+
+risk:
+  stop_loss_pct: 0.8
+  take_profit_pct: 1.2
+  time_stop_bars: 12

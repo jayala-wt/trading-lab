@@ -1,0 +1,14 @@
+id: hammer_candle
+name: Hammer Candlestick
+implementation: primitives
+description: Bullish reversal candle with long lower wick after downtrend.
+params:
+  wick_body_ratio: 2.0
+  prior_downtrend_bars: 5
+  downtrend_threshold: -1.0
+logic:
+  signal: "lower_wick_ratio() > wick_body_ratio and pct_move(prior_downtrend_bars) < downtrend_threshold"
+  score: "lower_wick_ratio()"
+  tags:
+    wick_ratio: "lower_wick_ratio()"
+    prior_trend: "pct_move(prior_downtrend_bars)"

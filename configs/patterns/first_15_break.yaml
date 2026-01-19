@@ -1,0 +1,16 @@
+id: first_15_break
+name: First 15-Minute Range Break
+implementation: primitives
+description: Breakout above/below the first 15 minutes high/low after market open.
+params:
+  range_window: 15              # first 15 bars (1-min timeframe)
+  breakout_buffer: 0.001        # 0.1% buffer above high
+  volume_confirm: 1.2           # volume > 1.2x average
+logic:
+  signal: "(close > range_high(range_window) * (1 + breakout_buffer) or close < range_low(range_window) * (1 - breakout_buffer)) and volume_ratio(5) > volume_confirm"
+  score: "abs(pct_move(1))"
+  direction: "1 if close > range_high(range_window) else -1"
+  tags:
+    range_high: "range_high(range_window)"
+    range_low: "range_low(range_window)"
+    break_direction: "1 if close > range_high(range_window) else -1"
