@@ -1,0 +1,28 @@
+# Dimension-based Trend Continuation Strategy
+# Trades with the trend when dimension states align
+
+id: dim_trend_continuation
+name: Dimension Trend Continuation
+description: |
+  Trades pullbacks in trending markets when dimension states confirm trend strength.
+  Only trades in direction of confirmed trend.
+  
+required_patterns:
+  - dim_trend_continuation_buy
+  - dim_trend_continuation_sell
+
+entry:
+  action: open
+  side: signal           # Use direction from pattern (buy/sell)
+  size_mode: fixed_usd
+  size_value: 18         # ~$18 per trade
+  order_type: market
+
+filters:
+  min_confidence: 0.5    # Require 50%+ confidence
+  market_hours_only: false
+
+risk:
+  stop_loss_pct: 1.0
+  take_profit_pct: 2.0
+  time_stop_bars: 24     # 2 hours at 5min bars

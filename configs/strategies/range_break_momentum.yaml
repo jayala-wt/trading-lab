@@ -1,0 +1,18 @@
+id: range_break_momentum
+name: First 15 Range Breakout
+description: Trade breakout direction from first 15-minute range.
+patterns_required:
+  - first_15_break
+entry:
+  side: dynamic        # uses direction from pattern
+  order_type: market
+  size_mode: fixed_usd
+  size_value: 15
+exit:
+  stop_loss_pct: 0.3
+  take_profit_pct: 0.8
+  time_stop_bars: 45
+filters:
+  min_score: 0.002
+  after_bar: 16        # only after first 15 bars
+  market_hours_only: true

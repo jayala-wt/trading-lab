@@ -1,0 +1,9 @@
+# Risk limits for CRYPTO bots ($300 budget)
+# Limits are PER SYMBOL PER STRATEGY (for ML data farming)
+# Example: squeeze_breakout can do 20 BTC trades, dim_momentum_reversal can do 20 more
+arm_required: false
+max_trades_per_day: 20          # Per symbol per strategy
+max_daily_loss_usd: 75          # Total daily loss limit
+max_position_usd: 20            # Keep positions small for testing
+allow_short: true               # Enable short selling for bearish signals
+api_error_kill_switch_threshold: 10

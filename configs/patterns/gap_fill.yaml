@@ -1,0 +1,14 @@
+id: gap_fill
+name: Gap Fill
+implementation: primitives
+description: Price gaps up/down then reverses to fill the gap - mean reversion.
+params:
+  gap_threshold_pct: 0.5
+  fill_threshold_pct: 50  # fill 50% of gap
+logic:
+  signal: "abs(overnight_gap_pct()) > gap_threshold_pct and gap_fill_pct() > fill_threshold_pct"
+  score: "abs(overnight_gap_pct())"
+  direction: "-1 if overnight_gap_pct() > 0 else 1"
+  tags:
+    gap_pct: "overnight_gap_pct()"
+    fill_pct: "gap_fill_pct()"

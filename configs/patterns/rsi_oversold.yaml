@@ -1,0 +1,14 @@
+id: rsi_oversold
+name: RSI Oversold Reversal
+implementation: primitives
+description: RSI crosses back above 30 after being oversold - mean reversion setup.
+params:
+  rsi_period: 14
+  oversold_level: 30
+  cross_confirm_bars: 2
+logic:
+  signal: "rsi(rsi_period) > oversold_level and rsi_prev(rsi_period, cross_confirm_bars) < oversold_level"
+  score: "oversold_level - rsi_prev(rsi_period, cross_confirm_bars)"
+  tags:
+    current_rsi: "rsi(rsi_period)"
+    prev_rsi: "rsi_prev(rsi_period, cross_confirm_bars)"

@@ -1,0 +1,24 @@
+id: composite_momentum_long
+name: Composite Momentum Long Entry
+description: |
+  Enter long positions when the composite momentum pattern fires,
+  indicating multiple indicators agree on bullish conditions.
+  High confidence entries with stronger risk parameters.
+
+patterns_required:
+  - composite_momentum
+
+entry:
+  side: buy
+  order_type: market
+  size_mode: fixed_usd
+  size_value: 15          # Conservative size given current balance
+
+exit:
+  stop_loss_pct: 1.0      # Tighter stop with higher confidence
+  take_profit_pct: 2.5    # Larger target
+  time_stop_bars: 120     # 10 hours at 5min bars
+
+filters:
+  min_score: 10           # Require decent composite score
+  market_hours_only: false # Crypto trades 24/7

@@ -1,0 +1,41 @@
+id: scalp_momentum
+name: Scalp Momentum Strategy
+version: "1.0"
+description: Quick scalps on momentum breakouts with tight stops.
+
+# Current strategy engine reads required_patterns + entry.
+# Keep legacy fields below for reference while using the active schema.
+required_patterns:
+  - volume_breakout
+  - ema_crossover
+
+entry:
+  action: open
+  side: buy
+  size_mode: fixed_usd
+  size_value: 20
+  order_type: market
+
+patterns:
+  - volume_breakout
+  - ema_crossover
+
+entry_logic:
+  operator: OR
+  conditions:
+    - pattern: volume_breakout
+      direction: long
+    - pattern: ema_crossover
+      min_score: 0.5
+
+risk:
+  position_pct: 3.0
+  stop_loss_pct: 0.5
+  take_profit_pct: 1.0
+  trailing_stop_pct: 0.3
+  max_hold_minutes: 30
+
+filters:
+  min_volume_ratio: 1.5
+  spread_max_pct: 0.1
+  min_atr_pct: 0.3

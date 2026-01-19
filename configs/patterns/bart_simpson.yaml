@@ -1,0 +1,12 @@
+id: bart_simpson
+name: Bart Simpson
+implementation: plugin
+description: Impulse, shelf, and reversion pattern.
+plugin_class: bart_simpson
+params:
+  impulse: 5
+  shelf: 6
+  reversion: 5
+  impulse_threshold: 0.8
+  shelf_max_range: 0.4
+  reversion_threshold: -0.5

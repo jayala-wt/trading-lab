@@ -1,0 +1,15 @@
+id: volatility_squeeze
+name: Volatility Squeeze
+implementation: primitives
+description: Tight range with mean-reverting behavior.
+params:
+  squeeze_window: 20
+  squeeze_threshold: 1.2
+  z_window: 20
+  z_limit: 1.0
+logic:
+  signal: "range_pct(squeeze_window) < squeeze_threshold and zscore(z_window) < z_limit and zscore(z_window) > -z_limit"
+  score: "squeeze_threshold - range_pct(squeeze_window)"
+  tags:
+    range_pct: "range_pct(squeeze_window)"
+    zscore: "zscore(z_window)"

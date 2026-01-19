@@ -1,0 +1,29 @@
+id: dimension_directional
+name: Dimension-Based Directional Trading
+description: |
+  Executes trades based on dimension pattern signals.
+  Respects the signal direction (buy/sell) from the pattern.
+  Used with dimension patterns that have explicit direction.
+
+patterns_required:
+  - dim_momentum_reversal_buy
+  - dim_momentum_reversal_sell
+  - dim_trend_continuation_buy
+  - dim_trend_continuation_sell
+  - dim_breakout_buy
+  - dim_breakout_sell
+
+entry:
+  side: signal           # Use direction from signal
+  order_type: market
+  size_mode: fixed_usd
+  size_value: 15         # $15 per trade
+
+exit:
+  stop_loss_pct: 1.5     # 1.5% stop loss
+  take_profit_pct: 3.0   # 3% take profit  
+  time_stop_bars: 60     # 5 hours at 5min bars
+
+filters:
+  min_confidence: 0.5    # Require 50% confidence from dimension pattern
+  market_hours_only: false

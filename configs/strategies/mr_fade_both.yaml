@@ -1,0 +1,29 @@
+# Mean Reversion Fade Strategy - Trade against extremes
+# Goes SHORT when overbought, LONG when oversold
+
+id: mr_fade_both
+name: Mean Reversion Fade (Both Directions)
+description: |
+  Fades extreme moves expecting reversion to mean.
+  Uses both buy and sell signals from mean reversion patterns.
+
+required_patterns:
+  - mean_reversion_extreme
+  - dim_momentum_reversal_buy
+  - dim_momentum_reversal_sell
+
+entry:
+  action: open
+  side: signal           # Follow pattern direction
+  size_mode: fixed_usd
+  size_value: 15         # Smaller size for mean reversion
+  order_type: market
+
+filters:
+  min_confidence: 0.5
+  market_hours_only: false
+
+risk:
+  stop_loss_pct: 1.0     # Tighter stops for mean reversion
+  take_profit_pct: 1.5   # Quick profits
+  time_stop_bars: 20     # Don't hold too long

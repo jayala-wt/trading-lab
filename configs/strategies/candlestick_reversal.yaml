@@ -1,0 +1,36 @@
+id: candlestick_reversal
+name: Candlestick Reversal Strategy
+version: "1.0"
+description: Trade classic candlestick reversal patterns with volume.
+
+patterns:
+  - hammer_candle
+  - double_bottom
+  - momentum_divergence
+
+entry_logic:
+  operator: OR
+  conditions:
+    - combo:
+        operator: AND
+        patterns:
+          - hammer_candle
+          - volume_spike: 1.5
+    - pattern: double_bottom
+      min_score: 2.0
+    - combo:
+        operator: AND
+        patterns:
+          - momentum_divergence
+          - hammer_candle
+
+risk:
+  position_pct: 4.0
+  stop_loss_pct: 1.2
+  take_profit_pct: 3.6
+  trailing_stop_pct: 0.8
+  max_hold_days: 3
+
+filters:
+  min_volume_ratio: 1.3
+  prior_trend_min_pct: -3.0

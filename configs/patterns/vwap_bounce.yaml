@@ -1,0 +1,16 @@
+id: vwap_bounce
+name: VWAP Bounce
+implementation: primitives
+description: Price touches VWAP and bounces with volume confirmation.
+params:
+  vwap_period: 50              # bars to calculate VWAP
+  vwap_touch_threshold: 0.002   # within 0.2% of VWAP
+  bounce_min_pct: 0.003         # minimum 0.3% bounce
+  volume_spike_ratio: 1.5       # volume > 1.5x average
+logic:
+  signal: "abs(close - vwap(vwap_period)) / vwap(vwap_period) < vwap_touch_threshold and pct_move(3) > bounce_min_pct and volume_ratio(5) > volume_spike_ratio"
+  score: "volume_ratio(5)"
+  tags:
+    vwap_distance: "abs(close - vwap(vwap_period)) / vwap(vwap_period)"
+    bounce_pct: "pct_move(3)"
+    vol_ratio: "volume_ratio(5)"

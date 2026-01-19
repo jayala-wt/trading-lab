@@ -1,0 +1,13 @@
+id: btc_dominance_shift
+name: BTC Dominance Shift
+implementation: primitives
+description: Trade altcoins when BTC dominance drops - capital rotating to alts.
+params:
+  btc_dominance_threshold: 55
+  btc_stable_hours: 4
+logic:
+  signal: "btc_dominance() < btc_dominance_threshold and btc_stable(btc_stable_hours)"
+  score: "60 - btc_dominance()"
+  tags:
+    btc_dom: "btc_dominance()"
+    btc_24h_move: "btc_pct_move(24)"

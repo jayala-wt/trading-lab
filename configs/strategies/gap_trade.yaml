@@ -1,0 +1,25 @@
+id: gap_trade
+name: Gap Fill Strategy
+version: "1.0"
+description: Trade morning gaps that tend to fill during regular hours.
+
+patterns:
+  - gap_fill
+
+entry_logic:
+  operator: AND
+  conditions:
+    - pattern: gap_fill
+    - time_window: "09:30-11:00"
+
+risk:
+  position_pct: 3.0
+  stop_loss_pct: 0.8
+  take_profit_pct: "gap_size * 0.7"
+  trailing_stop_pct: 0.4
+  max_hold_minutes: 90
+
+filters:
+  min_gap_pct: 0.5
+  max_gap_pct: 3.0
+  exclude_earnings_day: true

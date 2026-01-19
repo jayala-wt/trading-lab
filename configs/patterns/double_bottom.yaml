@@ -1,0 +1,15 @@
+id: double_bottom
+name: Double Bottom
+implementation: primitives
+description: Price forms two lows at similar level then breaks resistance - reversal pattern.
+params:
+  lookback: 50
+  tolerance_pct: 1.0
+  neckline_break_pct: 0.2
+logic:
+  signal: "is_double_bottom(lookback, tolerance_pct) and pct_move(1) > neckline_break_pct"
+  score: "range_pct(lookback)"
+  tags:
+    low1: "pattern_low1(lookback)"
+    low2: "pattern_low2(lookback)"
+    neckline: "pattern_neckline(lookback)"

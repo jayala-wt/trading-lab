@@ -1,0 +1,17 @@
+id: rsi_reversal
+name: RSI Oversold Reversal Long
+description: Buy when RSI crosses back above 30 from oversold.
+patterns_required:
+  - rsi_oversold
+entry:
+  side: buy
+  order_type: market
+  size_mode: fixed_usd
+  size_value: 15
+exit:
+  stop_loss_pct: 0.8
+  take_profit_pct: 1.5
+  time_stop_bars: 60
+filters:
+  min_score: 5         # was at least 5 points below 30
+  market_hours_only: false

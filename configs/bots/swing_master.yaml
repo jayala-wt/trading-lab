@@ -1,0 +1,44 @@
+bot:
+  id: swing_master
+  market: stocks
+  timeframe: 15m
+  enabled: true
+
+universe:
+  mode: list
+  symbols: [AAPL, MSFT, GOOGL, AMZN, META, NVDA]
+
+data:
+  provider: alpaca
+  bars:
+    lookback_bars: 300
+  schedule:
+    interval_seconds: 900
+    market_hours_only: true
+
+pipeline:
+  patterns:
+    - id: trend_pullback
+      config: configs/patterns/trend_pullback.yaml
+    - id: support_bounce
+      config: configs/patterns/support_bounce.yaml
+    - id: macd_crossover
+      config: configs/patterns/macd_crossover.yaml
+    - id: hammer_candle
+      config: configs/patterns/hammer_candle.yaml
+  strategies:
+    - id: swing_trend
+      config: configs/strategies/swing_trend.yaml
+
+execution:
+  mode: paper
+  gated: true
+  risk_defaults: null
+
+visuals:
+  generate_on: [signal_fired]
+  chart_style: minimal_dark
+
+content:
+  enabled: false
+  caption_templates: []

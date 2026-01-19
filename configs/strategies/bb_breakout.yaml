@@ -1,0 +1,27 @@
+# Bollinger Band Breakout Strategy
+# Trades breakouts from tight bands
+
+id: bb_breakout
+name: Bollinger Breakout
+description: |
+  Enter on Bollinger Band breakout after squeeze.
+  Side determined by breakout direction.
+  
+required_patterns:
+  - bollinger_squeeze
+
+entry:
+  action: open
+  side: signal  # Follow pattern direction (buy if above upper, sell if below lower)
+  size_mode: fixed_usd
+  size_value: 16
+  order_type: market
+
+filters:
+  min_confidence: 0.5
+  market_hours_only: false
+
+risk:
+  stop_loss_pct: 1.0
+  take_profit_pct: 2.0
+  time_stop_bars: 24

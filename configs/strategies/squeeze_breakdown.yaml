@@ -1,0 +1,28 @@
+# Squeeze Breakdown Strategy - SHORT when volatility expands downward
+# Opposite of squeeze_breakout - profits from downward moves
+
+id: squeeze_breakdown
+name: Squeeze Breakdown (Short)
+description: |
+  Enter SHORT on volatility squeeze release when price breaks down.
+  Uses dimension volatility state for cleaner signals.
+
+required_patterns:
+  - volatility_squeeze
+  - dim_volatility_squeeze
+
+entry:
+  action: open
+  side: sell             # SHORT position
+  size_mode: fixed_usd
+  size_value: 18         # ~$18 per trade
+  order_type: market
+
+filters:
+  min_confidence: 0.6    # Higher confidence for shorts
+  market_hours_only: false
+
+risk:
+  stop_loss_pct: 1.5
+  take_profit_pct: 2.5
+  time_stop_bars: 24     # 2 hours at 5min bars

@@ -1,0 +1,14 @@
+id: support_bounce
+name: Support Level Bounce  
+implementation: primitives
+description: Price tests a prior support level and bounces with confirmation.
+params:
+  support_lookback: 50
+  touch_tolerance_pct: 0.3
+  bounce_confirm_pct: 0.2
+logic:
+  signal: "abs(close - support_level(support_lookback)) / support_level(support_lookback) < touch_tolerance_pct / 100 and pct_move(2) > bounce_confirm_pct"
+  score: "volume_ratio(10)"
+  tags:
+    support: "support_level(support_lookback)"
+    distance_pct: "abs(close - support_level(support_lookback)) / support_level(support_lookback) * 100"

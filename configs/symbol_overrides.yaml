@@ -1,0 +1,155 @@
+# Symbol-specific strategy overrides
+# Allows customizing strategy behavior per asset based on historical data
+# 
+# Usage: The strategy engine checks this config BEFORE executing a trade
+# If override exists, it applies symbol-specific rules
+#
+# Data-driven insights (as of 2026-02-05):
+# - AAPL: squeeze_breakout works great (85% win rate) - bullish bias
+# - SOL/USD: squeeze_breakout fails badly (13.5% win) - needs bearish filter
+# - ETH/USD: squeeze_breakout fails (22.5% win) - needs bearish filter
+# - DOGE/USD: squeeze_breakout borderline works (51% win) - neutral
+
+defaults:
+  # Default directional filter for squeeze strategies
+  squeeze_direction_filter: true  # Check trend before entry
+  
+symbols:
+  # === STOCKS (generally more predictable) ===
+  
+  AAPL:
+    # 85% win rate on squeeze_breakout - keep it simple
+    squeeze_breakout:
+      enabled: true
+      direction_filter: none  # Works without filter
+      risk:
+        stop_loss_pct: 0.8
+        take_profit_pct: 1.8
+    squeeze_breakdown:
+      enabled: true
+      direction_filter: require_bearish
+
+  AMD:
+    # 0% win rate on squeeze_breakout - very bearish
+    squeeze_breakout:
+      enabled: true
+      direction_filter: require_bullish  # Only trade if trend is up
+      risk:
+        stop_loss_pct: 0.5  # Tighter stop
+        take_profit_pct: 1.2
+    squeeze_breakdown:
+      enabled: true
+      direction_filter: none  # Let it short freely
+      
+  NVDA:
+    squeeze_breakout:
+      enabled: true
+      direction_filter: require_bullish
+    squeeze_breakdown:
+      enabled: true
+      direction_filter: require_bearish
+      
+  AMZN:
+    squeeze_breakout:
+      enabled: true
+      direction_filter: require_bullish
+    squeeze_breakdown:
+      enabled: true
+      direction_filter: require_bearish
+
+  # === CRYPTO (more volatile, need direction filters) ===
+  
+  BTC/USD:
+    # 37% win rate on squeeze_breakout - needs help
+    squeeze_breakout:
+      enabled: true
+      direction_filter: require_bullish  # Only LONG when trend is up
+      min_confidence: 0.7
+      risk:
+        stop_loss_pct: 1.0
+        take_profit_pct: 2.0
+    squeeze_breakdown:
+      enabled: true
+      direction_filter: require_bearish
+      risk:
+        stop_loss_pct: 1.5
+        take_profit_pct: 2.5
+        
+  ETH/USD:
+    # 22.5% win rate on squeeze_breakout - terrible for longs
+    squeeze_breakout:
+      enabled: true
+      direction_filter: require_bullish  # MUST be bullish to go long
+      min_confidence: 0.8  # Higher bar
+      risk:
+        stop_loss_pct: 0.8
+        take_profit_pct: 1.5
+    squeeze_breakdown:
+      enabled: true
+      direction_filter: prefer_bearish  # Shorts work better
+      risk:
+        stop_loss_pct: 1.2
+        take_profit_pct: 2.0
+        
+  SOL/USD:
+    # 13.5% win rate on squeeze_breakout - DISASTER for longs
+    squeeze_breakout:
+      enabled: true
+      direction_filter: require_bullish  # STRICT - only if strongly bullish
+      min_confidence: 0.9  # Very high bar
+      risk:
+        stop_loss_pct: 0.5  # Very tight stop
+        take_profit_pct: 1.0
+    squeeze_breakdown:
+      enabled: true
+      direction_filter: none  # Let it short freely - SOL drops on squeezes
+      risk:
+        stop_loss_pct: 2.0
+        take_profit_pct: 3.0
+
+  DOGE/USD:
+    # 51% win rate - borderline works
+    squeeze_breakout:
+      enabled: true
+      direction_filter: prefer_bullish  # Soft filter
+      risk:
+        stop_loss_pct: 1.0
+        take_profit_pct: 2.0
+    squeeze_breakdown:
+      enabled: true
+      direction_filter: prefer_bearish
+
+  AVAX/USD:
+    # 45% win rate - close to working
+    squeeze_breakout:
+      enabled: true
+      direction_filter: require_bullish
+      risk:
+        stop_loss_pct: 1.0
+        take_profit_pct: 1.8
+    squeeze_breakdown:
+      enabled: true
+      direction_filter: prefer_bearish
+
+  LINK/USD:
+    # 26% win rate on squeeze_breakout - bad
+    squeeze_breakout:
+      enabled: true
+      direction_filter: require_bullish
+      min_confidence: 0.7
+      risk:
+        stop_loss_pct: 0.8
+        take_profit_pct: 1.5
+    squeeze_breakdown:
+      enabled: true
+      direction_filter: prefer_bearish
+      risk:
+        stop_loss_pct: 1.5
+        take_profit_pct: 2.5
+
+# Direction filter modes:
+# - none: No filter, execute as-is (for symbols where strategy works)
+# - require_bullish: Only execute LONG if momentum_bias is bullish or trend is up
+# - require_bearish: Only execute SHORT if momentum_bias is bearish or trend is down
+# - prefer_bullish: Execute with higher confidence threshold if not bullish
+# - prefer_bearish: Execute with higher confidence threshold if not bearish

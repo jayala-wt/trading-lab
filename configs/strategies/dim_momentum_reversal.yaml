@@ -1,0 +1,28 @@
+# Dimension-based Momentum Reversal Strategy
+# Trades when momentum is at extreme (oversold/overbought) with location confirmation
+
+id: dim_momentum_reversal
+name: Dimension Momentum Reversal
+description: |
+  Trades reversals when momentum indicators agree on extreme conditions.
+  Uses dimension states for cleaner signal quality.
+  
+required_patterns:
+  - dim_momentum_reversal_buy
+  - dim_momentum_reversal_sell
+
+entry:
+  action: open
+  side: signal           # Use direction from pattern (buy/sell)
+  size_mode: fixed_usd
+  size_value: 18         # ~$18 per trade
+  order_type: market
+
+filters:
+  min_confidence: 0.5    # Require 50%+ confidence from dimension pattern
+  market_hours_only: false
+
+risk:
+  stop_loss_pct: 1.2
+  take_profit_pct: 2.5
+  time_stop_bars: 30     # 2.5 hours at 5min bars

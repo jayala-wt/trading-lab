@@ -1,0 +1,16 @@
+id: macd_crossover
+name: MACD Crossover
+implementation: primitives
+description: MACD line crosses above signal line with histogram confirmation.
+params:
+  fast_period: 12
+  slow_period: 26
+  signal_period: 9
+  histogram_threshold: 0
+logic:
+  signal: "macd_line(fast_period, slow_period) > macd_signal(fast_period, slow_period, signal_period) and macd_line_prev(fast_period, slow_period, 1) < macd_signal_prev(fast_period, slow_period, signal_period, 1)"
+  score: "abs(macd_histogram(fast_period, slow_period, signal_period))"
+  tags:
+    macd_line: "macd_line(fast_period, slow_period)"
+    signal_line: "macd_signal(fast_period, slow_period, signal_period)"
+    histogram: "macd_histogram(fast_period, slow_period, signal_period)"

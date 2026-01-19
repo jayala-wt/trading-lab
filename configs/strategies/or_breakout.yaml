@@ -1,0 +1,14 @@
+id: or_breakout
+name: Opening Range Breakout
+required_patterns:
+  - opening_range
+description: Enter on opening range expansion.
+entry:
+  action: open
+  side: buy
+  size_mode: fixed_usd
+  size_value: 20
+  order_type: market
+risk:
+  stop_loss_pct: 0.7
+  take_profit_pct: 1.5

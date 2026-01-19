@@ -1,0 +1,27 @@
+# Volume Breakout Strategy
+# Trade high-volume price breakouts
+
+id: volume_breakout_long
+name: Volume Breakout Long
+description: |
+  Enter LONG on high-volume price breakout.
+  Volume confirms institutional participation.
+  
+required_patterns:
+  - volume_breakout
+
+entry:
+  action: open
+  side: buy
+  size_mode: fixed_usd
+  size_value: 18
+  order_type: market
+
+filters:
+  min_confidence: 0.5
+  market_hours_only: false
+
+risk:
+  stop_loss_pct: 1.0
+  take_profit_pct: 2.0
+  time_stop_bars: 20

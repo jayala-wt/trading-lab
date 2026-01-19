@@ -1,0 +1,14 @@
+id: opening_range
+name: Opening Range Break
+implementation: primitives
+description: Opening range expansion with follow-through.
+params:
+  opening_window: 20
+  range_threshold: 0.8
+  breakout_threshold: 0.15
+logic:
+  signal: "range_pct(opening_window) > range_threshold and pct_move(1) > breakout_threshold"
+  score: "range_pct(opening_window)"
+  tags:
+    range_pct: "range_pct(opening_window)"
+    pct_move_1: "pct_move(1)"

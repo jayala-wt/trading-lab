@@ -1,0 +1,12 @@
+id: mean_reversion_extreme
+name: Mean Reversion Extreme
+implementation: primitives
+description: Z-score extremes hint at reversion setups.
+params:
+  z_window: 30
+  z_threshold: 2.0
+logic:
+  signal: "zscore(z_window) < -z_threshold or zscore(z_window) > z_threshold"
+  score: "zscore(z_window)"
+  tags:
+    zscore: "zscore(z_window)"
