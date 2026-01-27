@@ -1,0 +1,15 @@
+[Unit]
+Description=Alpaca MCP Server
+After=network.target
+
+[Service]
+Type=simple
+# Update User and paths to match where you ran setup_alpaca_mcp.sh
+User=alpaca
+WorkingDirectory=/home/alpaca/services/alpaca-mcp-server
+EnvironmentFile=/home/alpaca/services/alpaca-mcp-server/.env
+ExecStart=/usr/bin/env uvx alpaca-mcp-server serve
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
