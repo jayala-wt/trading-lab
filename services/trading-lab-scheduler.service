@@ -1,0 +1,14 @@
+[Unit]
+Description=Trading Lab Scheduler - Crypto 24/7 Bot
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/homelab-panel/trading-lab
+EnvironmentFile=/opt/homelab-panel/trading-lab/.env
+ExecStart=/usr/bin/python3 /opt/homelab-panel/trading-lab/scripts/run_scheduler.py --config configs/bots/crypto_24_7.yaml --interval 300
+Restart=on-failure
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target
