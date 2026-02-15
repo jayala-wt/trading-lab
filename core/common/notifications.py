@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Dict, Any, Optional
 
 MSMTP_BIN = "/usr/bin/msmtp"
-EMAIL_TO = "wanatux@gmail.com"
+EMAIL_TO = os.getenv("NOTIFICATION_EMAIL", "")
 
 
 def send_email(subject: str, html_body: str) -> bool:

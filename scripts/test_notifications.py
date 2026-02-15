@@ -96,7 +96,7 @@ def main():
     print("=" * 60)
     print("🧪 Trading Bot Notification Tests")
     print("=" * 60)
-    print(f"Email: wanatux@gmail.com\n")
+    print(f"Email: {os.getenv('NOTIFICATION_EMAIL', 'not configured')}\n")
     
     tests = {
         'open': test_trade_opened,
@@ -117,7 +117,7 @@ def main():
     else:
         tests[args.test]()
     
-    print("\n📬 Check your inbox at wanatux@gmail.com")
+    print(f"\n📬 Check your inbox at {os.getenv('NOTIFICATION_EMAIL', 'configured email')}")
 
 
 if __name__ == '__main__':
